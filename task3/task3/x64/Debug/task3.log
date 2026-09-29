@@ -1,0 +1,3 @@
+﻿  3_4.cpp
+3_3.obj : error LNK2005: main уже определен в 3_2.obj
+D:\VS\ООП\task3\x64\Debug\task3.exe : fatal error LNK1169: обнаружен многократно определенный символ - один или более
