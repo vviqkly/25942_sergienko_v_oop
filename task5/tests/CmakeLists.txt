@@ -1,0 +1,5 @@
+add_executable(my_tests test_funcs.cpp)
+target_link_libraries(my_tests PRIVATE myadd GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(my_tests)

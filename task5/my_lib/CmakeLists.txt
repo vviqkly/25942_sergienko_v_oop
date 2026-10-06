@@ -1,0 +1,2 @@
+add_library(myadd STATIC funcs.cpp funcs.h)
+target_include_directories(myadd PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
