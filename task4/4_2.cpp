@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <numeric>
+#include <sstream>
 
 int check(char c)
 {
@@ -78,6 +79,22 @@ int main()
         }
     }
     in2.close();
+
+
+    // другой способ чтения 
+    //std::ifstream in1("file1.txt");
+    //std::stringstream buffer;
+    //buffer << in1.rdbuf();
+    //std::string content = buffer.str();
+
+    //for (std::size_t i = 0; i < content.size(); ++i)
+    //    if (content[i] == ',') content[i] = ' ';
+
+    //std::istringstream iss(content);
+    //int x;
+    //while (iss >> x)
+    //    first.push_back(x);
+    //in1.close();
 
     // Уникальные значения
     std::vector<int> uniqueFirst = first;
