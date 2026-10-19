@@ -5,7 +5,6 @@
 
 
 class TemperatureSensor {
-private:
     const std::string factory_id;
     int set_id;
     double temperature;
