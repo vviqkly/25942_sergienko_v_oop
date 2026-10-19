@@ -1,5 +1,23 @@
-add_executable(my_tests test_t_funcs.cpp)
-target_link_libraries(my_tests PRIVATE myadd GTest::gtest_main)
+option(BUILD_TESTS "Build tests" ON)
 
-include(GoogleTest)
-gtest_discover_tests(my_tests)
+if(BUILD_TESTS)
+    include(FetchContent)
+
+    FetchContent_Declare(googletest
+        URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+    )
+
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+    FetchContent_MakeAvailable(googletest)
+
+    add_executable(my_tests test_t_funcs.cpp)
+
+    target_link_libraries(my_tests PRIVATE
+        myadd
+        GTest::gtest_main
+    )
+
+    include(GoogleTest)
+    gtest_discover_tests(my_tests)
+endif()
