@@ -12,8 +12,7 @@ int main()
     a.print();                          
     b.print();
     c.print();
-    std::cout << "Предыдущее:" << b.getHistory(0) << " C\n";
-
+    
     TemperatureSensor d("SN-002", 2, 1500.0);
     d.print();                                           // нормализация температуры
 }
