@@ -38,7 +38,7 @@ std::string TemperatureSensor::check_factory_id(const std::string& value)
 double TemperatureSensor::normalize_temperature(double value)
 {
     if (value < -273.0) return -273.0;
-    if (value > 500.0) return 500.0;
+    if (value > 1000.0) return 1000.0;
     return value;
 }
 
