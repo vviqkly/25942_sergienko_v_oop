@@ -57,8 +57,8 @@ TEST(TemperatureSensorTest, FactoryIdValidation)
 
 TEST(TemperatureSensorTest, TemperatureNormalization) 
 {
-    TemperatureSensor sensor("SN-001", 1, 600.0);
-    EXPECT_DOUBLE_EQ(sensor.getTemperature(), 500.0);
+    TemperatureSensor sensor("SN-001", 1, 10000.0);
+    EXPECT_DOUBLE_EQ(sensor.getTemperature(), 1000.0);
 
     sensor.setTemperature(-300.0);
     EXPECT_DOUBLE_EQ(sensor.getTemperature(), -273.0);
