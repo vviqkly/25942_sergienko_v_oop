@@ -1,0 +1,98 @@
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <list>
+#include <map>
+#include <cctype>
+#include <utility>
+#include <iomanip>
+
+bool compareWords(const std::pair<std::string, int>& a, const std::pair<std::string, int>& b)
+{
+    if (a.second != b.second) return a.second > b.second;
+    return a.first < b.first;
+}
+
+int main(int argc, char* argv[])
+{
+    if (argc != 3)
+    {
+        std::cout << "Usage: word_count input.txt output.csv\n";
+        return 1;
+    }
+
+    std::ifstream input(argv[1]);
+
+    if (!input.is_open())
+    {
+        std::cout << "Cannot open input file\n";
+        return 1;
+    }
+
+    std::list<std::string> lines;
+    std::string line;
+
+    while (std::getline(input, line))
+    {
+        lines.push_back(line);
+    }
+
+    input.close();
+
+    std::map<std::string, int> wordCount;
+    int totalWords = 0;
+
+    for (const std::string& text : lines)
+    {
+        std::string word;
+
+        for (unsigned char c : text)
+        {
+            if (std::isalnum(c))
+            {
+                word += static_cast<char>(std::tolower(c));
+            }
+            else if (!word.empty())
+            {
+                ++wordCount[word];
+                ++totalWords;
+                word.clear();
+            }
+        }
+
+        if (!word.empty())
+        {
+            ++wordCount[word];
+            ++totalWords;
+        }
+    }
+
+    std::list<std::pair<std::string, int>> sortedWords;
+
+    for (const std::pair<const std::string, int>& item : wordCount)
+    {
+        sortedWords.push_back(item);
+    }
+
+    sortedWords.sort(compareWords);
+
+    std::ofstream output(argv[2]);
+
+    if (!output.is_open())
+    {
+        std::cout << "Cannot open output file\n";
+        return 1;
+    }
+
+    output << "Word,Frequency,Percentage\n";
+
+    for (const std::pair<std::string, int>& item : sortedWords)
+    {
+        double percent = 100.0 * item.second / totalWords;
+        output << item.first << "," << item.second << "," << std::fixed << std::setprecision(2) << percent << "%\n";
+    }
+
+    output.close();
+    return 0;
+}
