@@ -18,11 +18,13 @@ public:
 };
 
 TemperatureSensor::TemperatureSensor()
-    : factory_id("UNKNOWN"), set_id(0), temperature(0.0), history{} {
+    : factory_id("abc_01"), set_id(0), temperature(0.0), history{} {
+        std::cout << "конструктор по умолчанию\n";
 }
 
 TemperatureSensor::TemperatureSensor(std::string factory_id, int set_id, double temperature)
     : factory_id(factory_id), set_id(set_id), temperature(temperature), history{} {
+            std::cout << "инициализирующий конструктор\n";
 }
 
 TemperatureSensor::TemperatureSensor(const TemperatureSensor& other)
@@ -32,6 +34,7 @@ TemperatureSensor::TemperatureSensor(const TemperatureSensor& other)
     {
         history[i] = other.history[i];
     }
+    std::cout << "конструктор копирования\n";
 }
 
 TemperatureSensor& TemperatureSensor::operator=(const TemperatureSensor& other) 
