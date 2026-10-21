@@ -48,6 +48,7 @@ TemperatureSensor& TemperatureSensor::operator=(const TemperatureSensor& other)
             history[i] = other.history[i];
         }
     }
+    std::cout << "оператор присваивания\n";
     return *this;
 }
 
