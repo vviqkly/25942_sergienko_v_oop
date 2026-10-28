@@ -1,17 +1,14 @@
+
 #include "TemperatureSensor.cpp"
 #include <vector>
 #include <list>
 #include <set>
 #include <windows.h>
 
-struct SensorLess
+bool operator<(const TemperatureSensor& a, const TemperatureSensor& b)
 {
-    bool operator()(const TemperatureSensor& a,
-        const TemperatureSensor& b) const
-    {
-        return a.getFactoryId() < b.getFactoryId();
-    }
-};
+    return a.getFactoryId() < b.getFactoryId();
+}
 
 int main()
 {
@@ -26,30 +23,32 @@ int main()
         std::cout << "Vector:\n";
         std::vector<TemperatureSensor> v;
         v.reserve(4);
+
         for (int i = 1; i <= 4; ++i)
         {
-            v.emplace_back("V" + std::to_string(i), i, 20.0*i);
+            v.emplace_back("V" + std::to_string(i), i, 20.0 * i);
         }
         TemperatureSensor::print_count();
         std::cout << "\n";
 
         std::cout << "List:\n";
         std::list<TemperatureSensor> l;
+
         for (int i = 1; i <= 4; ++i)
         {
-            l.emplace_back("L" + std::to_string(i), i, 25.0*i);
+            l.emplace_back("L" + std::to_string(i), i, 25.0 * i);
         }
         TemperatureSensor::print_count();
         std::cout << "\n";
 
         std::cout << "Set:\n";
-        std::set<TemperatureSensor, SensorLess> s;
+        std::set<TemperatureSensor> s;
+
         for (int i = 1; i <= 4; ++i)
         {
-            s.emplace("S" + std::to_string(i), i, 30.0*i);
+            s.emplace("S" + std::to_string(i), i, 30.0 * i);
         }
         TemperatureSensor::print_count();
-        std::cout << "\n";
     }
 
     std::cout << "\n";
