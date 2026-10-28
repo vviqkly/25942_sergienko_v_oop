@@ -34,7 +34,7 @@ std::string TemperatureSensor::check_factory_id(const std::string& value)
 {
     if (value.empty())
     {
-        throw std::invalid_argument("поле factory_id не должно быть пустым");
+        return "unknown";
     }
     return value;
 }
