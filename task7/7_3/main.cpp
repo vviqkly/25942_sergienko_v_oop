@@ -1,7 +1,11 @@
 #include "TemperatureSensor.cpp"
+#include <windows.h>
 
 int main()
 {
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+    
     std::cout << "Static values:\n";
     TemperatureSensor::print_count();
     std::cout << "\n";
