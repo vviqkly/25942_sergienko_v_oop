@@ -121,6 +121,7 @@ template<typename NUMBER>
 TemperatureSensor<NUMBER>::~TemperatureSensor()
 {
     delete[] history;
+    history = nullptr;
     --count;
     std::cout << "деструктор, count: " << count << "\n";
 }
