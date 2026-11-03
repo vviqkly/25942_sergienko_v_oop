@@ -1,3 +1,4 @@
+
 #include <string>
 #include <cmath>
 #include <iostream>
@@ -24,7 +25,7 @@ public:
     TemperatureSensor(const TemperatureSensor& other);
     TemperatureSensor(TemperatureSensor&& other);
     TemperatureSensor& operator=(const TemperatureSensor& other);
-    TemperatureSensor& operator=(TemperatureSensor && other);
+    TemperatureSensor& operator=(TemperatureSensor&& other);
     ~TemperatureSensor();
 
     const std::string& getFactoryId() const;
@@ -74,7 +75,9 @@ NUMBER TemperatureSensor<NUMBER>::normalize_temperature(NUMBER value)
 
 template<typename NUMBER>
 TemperatureSensor<NUMBER>::TemperatureSensor()
-    : factory_id("abc_01"), set_id(0), temperature(0), history(new NUMBER[10]{}), unique_id(++uid) {
+    : factory_id("abc_01"), set_id(0), temperature(0),
+      history(new NUMBER[10]{}), unique_id(++uid)
+{
     ++count;
     std::cout << "конструктор по умолчанию, count: " << count << "\n";
 }
@@ -82,7 +85,9 @@ TemperatureSensor<NUMBER>::TemperatureSensor()
 template<typename NUMBER>
 TemperatureSensor<NUMBER>::TemperatureSensor(std::string factory_id, int set_id, NUMBER temperature)
     : factory_id(check_factory_id(factory_id)), set_id(set_id),
-    temperature(normalize_temperature(temperature)), history(new NUMBER[10]{}), unique_id(++uid) {
+      temperature(normalize_temperature(temperature)),
+      history(new NUMBER[10]{}), unique_id(++uid)
+{
     ++count;
     std::cout << "инициализирующий конструктор, count: " << count << "\n";
 }
@@ -90,11 +95,15 @@ TemperatureSensor<NUMBER>::TemperatureSensor(std::string factory_id, int set_id,
 template<typename NUMBER>
 TemperatureSensor<NUMBER>::TemperatureSensor(const TemperatureSensor& other)
     : factory_id(other.factory_id), set_id(other.set_id),
-    temperature(other.temperature), history(new NUMBER[10]), unique_id(++uid)
+      temperature(other.temperature), history(new NUMBER[10]{}),
+      unique_id(++uid)
 {
-    for (int i = 0; i < 10; ++i)
+    if (other.history != nullptr)
     {
-        history[i] = other.history[i];
+        for (int i = 0; i < 10; ++i)
+        {
+            history[i] = other.history[i];
+        }
     }
 
     ++count;
@@ -106,12 +115,24 @@ TemperatureSensor<NUMBER>& TemperatureSensor<NUMBER>::operator=(const Temperatur
 {
     if (this != &other)
     {
+        if (history == nullptr)
+        {
+            history = new NUMBER[10]{};
+        }
+
         set_id = other.set_id;
         temperature = other.temperature;
 
         for (int i = 0; i < 10; ++i)
         {
-            history[i] = other.history[i];
+            if (other.history != nullptr)
+            {
+                history[i] = other.history[i];
+            }
+            else
+            {
+                history[i] = 0;
+            }
         }
     }
 
@@ -123,12 +144,15 @@ TemperatureSensor<NUMBER>& TemperatureSensor<NUMBER>::operator=(const Temperatur
 template<typename NUMBER>
 TemperatureSensor<NUMBER>::TemperatureSensor(TemperatureSensor&& other)
     : factory_id(other.factory_id), set_id(other.set_id),
-    temperature(other.temperature), history(other.history), unique_id(++uid) {
+      temperature(other.temperature), history(other.history),
+      unique_id(++uid)
+{
     other.history = nullptr;
     other.set_id = 0;
     other.temperature = 0;
-    ++count; 
-    cout << "конструктор перемещения, count: " << count << "\n";
+
+    ++count;
+    std::cout << "конструктор перемещения, count: " << count << "\n";
 }
 
 // оператор перемещающего присваивания
@@ -138,6 +162,7 @@ TemperatureSensor<NUMBER>& TemperatureSensor<NUMBER>::operator=(TemperatureSenso
     if (this != &other)
     {
         delete[] history;
+
         set_id = other.set_id;
         temperature = other.temperature;
         history = other.history;
@@ -151,12 +176,12 @@ TemperatureSensor<NUMBER>& TemperatureSensor<NUMBER>::operator=(TemperatureSenso
     return *this;
 }
 
-
 template<typename NUMBER>
 TemperatureSensor<NUMBER>::~TemperatureSensor()
 {
     delete[] history;
     history = nullptr;
+
     --count;
     std::cout << "деструктор, count: " << count << "\n";
 }
@@ -186,6 +211,12 @@ NUMBER TemperatureSensor<NUMBER>::getHistory(int index) const
     {
         throw std::out_of_range("Неверный индекс (0..9)");
     }
+
+    if (history == nullptr)
+    {
+        return NUMBER{};
+    }
+
     return history[index];
 }
 
@@ -218,6 +249,11 @@ void TemperatureSensor<NUMBER>::setTemperature(NUMBER value)
 {
     const NUMBER new_temperature = normalize_temperature(value);
 
+    if (history == nullptr)
+    {
+        history = new NUMBER[10]{};
+    }
+
     for (int i = 9; i > 0; --i)
     {
         history[i] = history[i - 1];
@@ -230,8 +266,11 @@ void TemperatureSensor<NUMBER>::setTemperature(NUMBER value)
 template<typename NUMBER>
 void TemperatureSensor<NUMBER>::print() const
 {
-    std::cout << "class: " << class_name << ", factory_id: " << factory_id << ", set_id: " << set_id
-        << ", unique_id: " << unique_id << ", temperature: " << temperature << " C\n";
+    std::cout << "class: " << class_name
+              << ", factory_id: " << factory_id
+              << ", set_id: " << set_id
+              << ", unique_id: " << unique_id
+              << ", temperature: " << temperature << " C\n";
 }
 
 template<typename NUMBER>
@@ -243,8 +282,12 @@ void TemperatureSensor<NUMBER>::print_count()
 template<typename NUMBER>
 std::ostream& operator<<(std::ostream& out, const TemperatureSensor<NUMBER>& sensor)
 {
-    out << "class: " << TemperatureSensor<NUMBER>::getClassName() << ", count: " << TemperatureSensor<NUMBER>::getCount() << ", factory_id: " << sensor.getFactoryId()
-        << ", set_id: " << sensor.getSetId() << ", unique_id: " << sensor.getUniqueId() << ", temperature: " << sensor.getTemperature() << " C";
+    out << "class: " << TemperatureSensor<NUMBER>::getClassName()
+        << ", count: " << TemperatureSensor<NUMBER>::getCount()
+        << ", factory_id: " << sensor.getFactoryId()
+        << ", set_id: " << sensor.getSetId()
+        << ", unique_id: " << sensor.getUniqueId()
+        << ", temperature: " << sensor.getTemperature() << " C";
 
     return out;
 }
