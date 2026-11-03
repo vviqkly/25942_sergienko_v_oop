@@ -1,17 +1,17 @@
-cmake_minimum_required(VERSION 3.16)
-project(TemperatureSensor)
+include(FetchContent)
 
-set(CMAKE_CXX_STANDARD 17)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+)
 
-if(MSVC)
-    add_compile_options(/utf-8)
-endif()
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-add_executable(sensor_test main.cpp)
+add_executable(sensor_tests tests.cpp)
 
-option(BUILD_TESTS "Build tests" OFF)
+target_include_directories(sensor_tests PRIVATE ..)
+target_link_libraries(sensor_tests PRIVATE GTest::gtest_main)
 
-if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+include(GoogleTest)
+gtest_discover_tests(sensor_tests)
