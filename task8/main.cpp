@@ -1,4 +1,3 @@
-
 #include "TemperatureSensor.cpp"
 #include <windows.h>
 #include <utility>
