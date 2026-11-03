@@ -1,4 +1,3 @@
-
 #include <string>
 #include <cmath>
 #include <iostream>
@@ -106,6 +105,7 @@ TemperatureSensor& TemperatureSensor::operator=(const TemperatureSensor& other)
 TemperatureSensor::~TemperatureSensor()
 {
     delete[] history;
+    history = nullptr;
     --count;
     std::cout << "деструктор, count: " << count << "\n";
 }
