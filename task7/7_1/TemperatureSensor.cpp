@@ -83,6 +83,7 @@ TemperatureSensor& TemperatureSensor::operator=(const TemperatureSensor& other)
 TemperatureSensor::~TemperatureSensor()
 {
     delete[] history;
+    history = nullptr;
 }
 
 const std::string& TemperatureSensor::getFactoryId() const 
