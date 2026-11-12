@@ -1,17 +1,19 @@
 #include "TemperatureSensor.cpp"
 
 template <typename NUMBER>
-class MedicalSensor : public TemperatureSensor<NUMBER>
+class MedicalSensor : protected TemperatureSensor<NUMBER>
 {
-	static NUMBER check_temperature(NUMBER value);
+	NUMBER check_temperature(NUMBER value);
 public:
+	using TemperatureSensor<NUMBER>::print;
+	using TemperatureSensor<NUMBER>::getTemperature;
 	void beep() const;
 	MedicalSensor(std::string factory_id, int set_id, NUMBER temperature);
-	void setTemperature(NUMBER value) override;
+	void setTemperature(NUMBER value);
 };
 
 template <typename NUMBER>
-static NUMBER MedicalSensor<NUMBER>::check_temperature(NUMBER value)
+NUMBER MedicalSensor<NUMBER>::check_temperature(NUMBER value)
 {
 	if (value < 34.0 || value > 42.0)
 	{
@@ -23,7 +25,7 @@ static NUMBER MedicalSensor<NUMBER>::check_temperature(NUMBER value)
 template <typename NUMBER>
 void MedicalSensor<NUMBER>::beep() const
 {
-	std::cout << "измерения окончены";
+	std::cout << "измерения окончены\n";
 }
 
 template <typename NUMBER>
@@ -35,4 +37,5 @@ template <typename NUMBER>
 void MedicalSensor<NUMBER>::setTemperature(NUMBER value)
 {
 	TemperatureSensor<NUMBER>::setTemperature(check_temperature(value));
+	beep();
 }
