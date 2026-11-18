@@ -6,12 +6,14 @@ int main()
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
 
-    MedicalSensor<double> a("med_001", 1, 36.6);
+    MedicalSensor<double> a("med_001", 1, 36.678);
     a.print();
+    std::cout << "Точность: " << a.getPrecision() << "\n";
+
     a.setTemperature(37.33);
     a.print();
 
-    MedicalSensor<double> b("med_001", 1, 36.6);
+    MedicalSensor<double> b("med_002", 2, 36.6);
 
     double temperature;
     while (true)
