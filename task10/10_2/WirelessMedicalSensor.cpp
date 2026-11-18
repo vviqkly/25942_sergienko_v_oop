@@ -1,15 +1,20 @@
 #include "MedicalSensor.cpp"
 
-template <typename NUMBER>
-class WirelessMedicalSensor final : private MedicalSensor<NUMBER>
+template<typename NUMBER>
+class WirelessMedicalThermometer final : private MedicalThermometer<NUMBER>
 {
 public:
-	void send_T() const;
+    WirelessMedicalThermometer(std::string factory_id, int set_id, NUMBER temperature);
+    void send_T() const;
 };
 
-template <typename NUMBER>
-void WirelessMedicalSensor<NUMBER>::send_T() const
-{
-	std::cout << "\n";
+template<typename NUMBER>
+WirelessMedicalThermometer<NUMBER>::WirelessMedicalThermometer(std::string factory_id, int set_id, NUMBER temperature)
+    : MedicalThermometer<NUMBER>(factory_id, set_id, temperature) {
 }
 
+template<typename NUMBER>
+void WirelessMedicalThermometer<NUMBER>::send_T() const
+{
+    std::cout << "Температура " << this->getTemperature() << " C успешно передана.\n";
+}
