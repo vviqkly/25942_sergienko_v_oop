@@ -4,6 +4,8 @@ template <typename NUMBER>
 class WirelessMedicalSensor final : private MedicalSensor<NUMBER>
 {
 public:
+    // 10_3 
+    using MedicalSensor<NUMBER>::beep();
     WirelessMedicalSensor(std::string factory_id, int set_id, NUMBER temperature);
     void send_T() const;
 };
