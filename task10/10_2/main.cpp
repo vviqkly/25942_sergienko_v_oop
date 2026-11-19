@@ -8,7 +8,10 @@ int main()
 
     WirelessMedicalSensor<double> a("wireless_001", 1, 36.678);
     a.send_T();
-
+    
+    //10_3
+    a.beep();
+    
     double temperature;
     while (true)
     {
