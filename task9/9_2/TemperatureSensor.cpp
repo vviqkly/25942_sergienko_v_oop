@@ -339,7 +339,7 @@ std::istream& operator>>(std::istream& in, TemperatureSensor<NUMBER>& sensor)
     return in;
 }
 
-// 9.I — дружественная функция
+// 9.1
 template<typename NUMBER>
 void calibrate_zero(TemperatureSensor<NUMBER>& sensor, NUMBER offset)
 {
